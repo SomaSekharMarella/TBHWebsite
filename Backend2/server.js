@@ -25,6 +25,12 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bo
 // IMPORTANT: Create an 'uploads' folder in your backend root directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://the-blockchain-hub.vercel.app/', // <--- **REPLACE THIS WITH YOUR ACTUAL VERCEL FRONTEND URL**
+    // Add other custom domains if you use them later
+];
+
 // --- MongoDB Connection ---
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB connected successfully'))
@@ -72,6 +78,8 @@ app.use((err, req, res, next) => {
 app.use((req, res, next) => {
     res.status(404).json({ message: 'API Route not found' });
 });
+
+
 
 // --- Start the server ---
 app.listen(PORT, () => {
